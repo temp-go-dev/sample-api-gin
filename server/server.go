@@ -1,7 +1,7 @@
 package server
 
 import (
-	user "sample-api-gin/controller"
+	"sample-api-gin/controller"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +17,7 @@ func router() *gin.Engine {
 
 	users := r.Group("/users")
 	{
-		userCtrl := new(user.Controller)
+		userCtrl := new(controller.UserController)
 		users.GET("", userCtrl.GetAllUser)
 		users.GET("/:id", userCtrl.GetUser)
 		users.POST("", userCtrl.Create)
@@ -25,15 +25,15 @@ func router() *gin.Engine {
 		users.DELETE("/:id", userCtrl.Delete)
 	}
 
-	// todos := r.Group("/todos")
-	// {
-	// 	todoCtrl := todo.Controller{}
-	// 	users.GET("", todoCtrl.Index)
-	// 	users.GET("/:id", todoCtrl.show)
-	// 	// users.POST("", ctrl.Create)
-	// 	// users.PUT("/:id", ctrl.Update)
-	// 	// users.DELETE("/:id", ctrl.Delete)
-	// }
+	todos := r.Group("/todos")
+	{
+		todoCtrl := controller.TodoController{}
+		todos.GET("/:id", todoCtrl.GetAllTodo)
+		// 	users.GET("/:id", todoCtrl.show)
+		todos.POST("", todoCtrl.Create)
+		// 	// users.PUT("/:id", ctrl.Update)
+		// 	// users.DELETE("/:id", ctrl.Delete)
+	}
 
 	return r
 }

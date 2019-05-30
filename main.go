@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"sample-api-gin/config"
 	"sample-api-gin/db"
 	"sample-api-gin/server"
 
@@ -106,6 +108,10 @@ func main() {
 	// })
 
 	// r.Run(":8080")
+
+	config.Init()
+	fmt.Println(config.GetProperties())
+
 	db.Init()
 	server.Init()
 

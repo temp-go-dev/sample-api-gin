@@ -1,8 +1,6 @@
 package model
 
-import (
-	"time"
-)
+import "time"
 
 // User ユーザTBLの構造体
 type User struct {
@@ -15,6 +13,11 @@ type User struct {
 	Phone      string `json:"Phone" gorm:"column:phone"`
 	UserStatus int    `json:"UserStatus" gorm:"column:userStatus"`
 	Version    int    `json:"Version" gorm:"column:version"`
+}
+
+// Todos Todoのリスト
+type Todos struct {
+	Todo []Todo
 }
 
 // Todo TodoTBLの構造体

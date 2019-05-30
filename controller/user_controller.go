@@ -1,19 +1,19 @@
-package user
+package controller
 
 import (
 	"fmt"
 	"sample-api-gin/model"
-	user "sample-api-gin/service"
+	"sample-api-gin/service"
 
 	"github.com/gin-gonic/gin"
 )
 
-// Controller is user controlller
-type Controller struct{}
+// UserController is user controlller
+type UserController struct{}
 
 // GetAllUser action: GET /users
-func (pc Controller) GetAllUser(c *gin.Context) {
-	var s user.Service
+func (pc UserController) GetAllUser(c *gin.Context) {
+	var s service.UserService
 	p, err := s.GetAllUser()
 
 	if err != nil {
@@ -25,10 +25,10 @@ func (pc Controller) GetAllUser(c *gin.Context) {
 }
 
 // GetUser action: GET /users/id
-func (pc Controller) GetUser(c *gin.Context) {
+func (pc UserController) GetUser(c *gin.Context) {
 	id := c.Param("id")
 
-	var s user.Service
+	var s service.UserService
 	p, err := s.GetUser(id)
 
 	if err != nil {
@@ -40,11 +40,11 @@ func (pc Controller) GetUser(c *gin.Context) {
 }
 
 // Create action: Create /users
-func (pc Controller) Create(c *gin.Context) {
+func (pc UserController) Create(c *gin.Context) {
 	u := model.User{}
 	c.BindJSON(&u)
 
-	var s user.Service
+	var s service.UserService
 	p, err := s.CreateUser(u)
 	if err != nil {
 		c.AbortWithStatus(404)
@@ -55,11 +55,11 @@ func (pc Controller) Create(c *gin.Context) {
 }
 
 // Update action: UPDATE /users/id
-func (pc Controller) Update(c *gin.Context) {
+func (pc UserController) Update(c *gin.Context) {
 	u := model.User{}
 	c.BindJSON(&u)
 
-	var s user.Service
+	var s service.UserService
 	p, err := s.UpdateUser(u)
 	if err != nil {
 		c.AbortWithStatus(404)
@@ -70,10 +70,10 @@ func (pc Controller) Update(c *gin.Context) {
 }
 
 // Delete action: DELETE /users/id
-func (pc Controller) Delete(c *gin.Context) {
+func (pc UserController) Delete(c *gin.Context) {
 	id := c.Param("id")
 
-	var s user.Service
+	var s service.UserService
 	p, err := s.DeleteUser(id)
 	if err != nil {
 		c.AbortWithStatus(404)
