@@ -1,0 +1,5 @@
+laungage: go
+go:
+  - 1.12
+script
+  - go build -a -installsuffix cgo -o sample-api-gin .
