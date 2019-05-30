@@ -1,8 +1,9 @@
 package main
 
 import (
-	"sample-api-gin/db"
-	"sample-api-gin/server"
+	"github.com/temp-go-dev/sample-api-gin/server"
+
+	"github.com/temp-go-dev/sample-api-gin/db"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )

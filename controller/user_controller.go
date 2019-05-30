@@ -2,8 +2,8 @@ package user
 
 import (
 	"fmt"
-	"sample-api-gin/model"
-	user "sample-api-gin/service"
+	"github.com/temp-go-dev/sample-api-gin/model"
+	user "github.com/temp-go-dev/sample-api-gin/service"
 
 	"github.com/gin-gonic/gin"
 )

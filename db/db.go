@@ -14,7 +14,7 @@ func Init() {
 	DBMS := "mysql"
 	USER := "user"
 	PASS := "password"
-	PROTOCOL := "tcp(localhost:3306)"
+	PROTOCOL := "tcp(mysql:3306)"
 	DBNAME := "sampledb"
 	// parseTime=trueを指定しないとdatetime→time.Timeへの変更でエラーが発生する。
 	CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true"

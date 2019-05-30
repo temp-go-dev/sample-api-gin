@@ -1,7 +1,7 @@
 package server
 
 import (
-	user "sample-api-gin/controller"
+	user "github.com/temp-go-dev/sample-api-gin/controller"
 
 	"github.com/gin-gonic/gin"
 )
