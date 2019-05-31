@@ -1,5 +1,6 @@
 laungage: go
+sudo: required
 go:
   - 1.12
-script
+script:
   - go build -a -installsuffix cgo -o sample-api-gin .
