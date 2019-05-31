@@ -1,6 +1,8 @@
 package server
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/temp-go-dev/sample-api-gin/controller"
 )
@@ -27,12 +29,21 @@ func router() *gin.Engine {
 	todos := r.Group("/todos")
 	{
 		todoCtrl := controller.TodoController{}
-		todos.GET("/:id", todoCtrl.GetAllTodo)
+		todos.GET("/:id", sampleMiddleware("start: todo get", "end  : todo get"), todoCtrl.GetAllTodo)
 		// 	users.GET("/:id", todoCtrl.show)
-		todos.POST("", todoCtrl.Create)
+		todos.POST("", sampleMiddleware("start: todo get", "end  : todo get"), todoCtrl.Create1)
 		// 	// users.PUT("/:id", ctrl.Update)
 		// 	// users.DELETE("/:id", ctrl.Delete)
 	}
 
 	return r
+}
+
+// sampleMiddleware middlewareテスト
+func sampleMiddleware(start string, end string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		fmt.Println(start)
+		c.Next()
+		fmt.Println(end)
+	}
 }
