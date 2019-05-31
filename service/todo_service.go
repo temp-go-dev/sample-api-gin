@@ -2,8 +2,9 @@ package service
 
 import (
 	"fmt"
-	"sample-api-gin/db"
-	"sample-api-gin/model"
+
+	"github.com/temp-go-dev/sample-api-gin/db"
+	"github.com/temp-go-dev/sample-api-gin/model"
 )
 
 // TodoService procides user's behavior

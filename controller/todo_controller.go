@@ -3,10 +3,10 @@ package controller
 import (
 	"fmt"
 	"net/http"
-	"sample-api-gin/model"
-	"sample-api-gin/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/temp-go-dev/sample-api-gin/model"
+	"github.com/temp-go-dev/sample-api-gin/service"
 )
 
 // TodoController is todo controller

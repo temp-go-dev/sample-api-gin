@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"sample-api-gin/config"
-	"sample-api-gin/db"
-	"sample-api-gin/server"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/temp-go-dev/sample-api-gin/config"
+	"github.com/temp-go-dev/sample-api-gin/db"
+	"github.com/temp-go-dev/sample-api-gin/server"
 )
 
 // Init aa

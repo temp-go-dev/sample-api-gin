@@ -1,9 +1,8 @@
 package db
 
 import (
-	"sample-api-gin/config"
-
 	"github.com/jinzhu/gorm"
+	"github.com/temp-go-dev/sample-api-gin/config"
 )
 
 var (

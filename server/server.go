@@ -1,9 +1,8 @@
 package server
 
 import (
-	"sample-api-gin/controller"
-
 	"github.com/gin-gonic/gin"
+	"github.com/temp-go-dev/sample-api-gin/controller"
 )
 
 // Init is initialize server

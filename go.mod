@@ -1,4 +1,4 @@
-module sample-api-gin
+module github.com/temp-go-dev/sample-api-gin
 
 go 1.12
 

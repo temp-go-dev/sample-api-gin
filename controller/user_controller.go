@@ -2,10 +2,10 @@ package controller
 
 import (
 	"fmt"
-	"sample-api-gin/model"
-	"sample-api-gin/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/temp-go-dev/sample-api-gin/model"
+	"github.com/temp-go-dev/sample-api-gin/service"
 )
 
 // UserController is user controlller
