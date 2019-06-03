@@ -2,5 +2,7 @@ laungage: go
 sudo: required
 go:
   - "1.12"
+env:
+  - GO111MODULE=on
 script:
   - go build -a -installsuffix cgo -o sample-api-gin .
