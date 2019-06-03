@@ -8,4 +8,4 @@ script:
   - pwd
   - go env
   - go install
-  - go build -v
+  - go build -a -v
