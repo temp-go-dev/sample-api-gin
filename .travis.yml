@@ -10,4 +10,5 @@ script:
   - pwd
   - go env
   - go install -i
+  - ls -laR $GOPATH
   - go build -a -v -installsuffix cgo -o sample-api-gin .
