@@ -7,5 +7,5 @@ go_import_path: github.com/temp-go-dev/sample-api-gin
 script:
   - pwd
   - go env
-  - go install -i
+  - go install
   - go build -v
