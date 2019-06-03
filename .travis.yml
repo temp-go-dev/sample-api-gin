@@ -1,12 +1,12 @@
+sudo: false
 laungage: go
-matrix:
-  fast_finish: true
-  include:
-  - go: 1.12.x
-    env: GO111MODULE=on
-go_import_path: github.com/temp-go-dev/sample-api-gin
-script:
-  - pwd
-  - go env
-  - go install
-  - go build -a -v
+env:
+  - GO111MODULE=on
+go:
+  - "1.12.x"
+#go_import_path: github.com/temp-go-dev/sample-api-gin
+#script:
+#  - pwd
+#  - go env
+#  - go install -i
+#  - go build -v
