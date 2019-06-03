@@ -6,4 +6,5 @@ env:
   - GO111MODULE=on
 script:
   - go env
+  - go install
   - go build -a -v -installsuffix cgo -o sample-api-gin .
