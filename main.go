@@ -7,8 +7,6 @@ import (
 	"github.com/temp-go-dev/sample-api-gin/config"
 	"github.com/temp-go-dev/sample-api-gin/db"
 	"github.com/temp-go-dev/sample-api-gin/server"
-	user "github.com/temp-go-dev/sample-api-gin/controller"
-	"github.com/gin-gonic/gin"
 )
 
 // Init aa
@@ -115,34 +113,6 @@ func main() {
 	fmt.Println(config.GetProperties())
 
 	db.Init()
-	//server.Init()
-	r := router()
-	r.Run(":8080")
+	server.Init()
 
-}
-
-func router() *gin.Engine {
-	r := gin.Default()
-
-	users := r.Group("/users")
-	{
-		userCtrl := new(user.Controller)
-		users.GET("", userCtrl.GetAllUser)
-		users.GET("/:id", userCtrl.GetUser)
-		users.POST("", userCtrl.Create)
-		users.PUT("/:id", userCtrl.Update)
-		users.DELETE("/:id", userCtrl.Delete)
-	}
-
-	// todos := r.Group("/todos")
-	// {
-	// 	todoCtrl := todo.Controller{}
-	// 	users.GET("", todoCtrl.Index)
-	// 	users.GET("/:id", todoCtrl.show)
-	// 	// users.POST("", ctrl.Create)
-	// 	// users.PUT("/:id", ctrl.Update)
-	// 	// users.DELETE("/:id", ctrl.Delete)
-	// }
-
-	return r
 }

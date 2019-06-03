@@ -2,11 +2,6 @@ package controller
 
 import (
 	"fmt"
-<<<<<<< HEAD
-=======
-	"github.com/temp-go-dev/sample-api-gin/model"
-	user "github.com/temp-go-dev/sample-api-gin/service"
->>>>>>> 764f8fdd6712f7adcd839c8c1242bc08efb49b5e
 
 	"github.com/gin-gonic/gin"
 	"github.com/temp-go-dev/sample-api-gin/model"
