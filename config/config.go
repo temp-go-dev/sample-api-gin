@@ -3,7 +3,6 @@ package config
 import (
 	"log"
 
-	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
 )
 
@@ -14,11 +13,12 @@ var (
 
 // Init 環境変数読み込みとマッピングした構造体の初期化
 func Init() {
+	// dockerで読み込むよう方法に変更。envファイルはリポジトリを分けてsubmodule化
 	// ファイル読み込み
-	err = godotenv.Load("environment.env")
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// err = godotenv.Load("environment.env")
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 
 	err = envconfig.Process("env", &prop)
 	if err != nil {

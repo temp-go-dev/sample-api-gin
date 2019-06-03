@@ -29,7 +29,7 @@ __Docker Container Run__
 
 ```bash
 docker run --rm -d -e MYSQL_ROOT_PASSWORD=password --name mysql -p 3306:3306 sample-db_mysql
-docker run --rm -d --link mysql -name sample-api-gin -p 8080:8080 sample-api-gin:0.0.1
+docker run --rm -d --env-file=./sample-api-environment/environment.env --link mysql -name sample-api-gin -p 8080:8080 sample-api-gin:0.0.1
 ```
 
 MySQLをあらかじめ起動およびマイグレーションしておく必要がある。  

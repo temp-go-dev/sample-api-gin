@@ -1,4 +1,4 @@
-[submodule "sample-api-environment/sample-api-environment"]
-	path = sample-api-environment/sample-api-environment
+[submodule "sample-api-environment"]
+	path = sample-api-environment
 	url = https://github.com/temp-go-dev/sample-api-environment.git
 	branch = master
