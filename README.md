@@ -35,7 +35,6 @@ docker run --rm -d --link mysql -name sample-api-gin -p 8080:8080 sample-api-gin
 MySQLをあらかじめ起動およびマイグレーションしておく必要がある。  
 なお、MySQLは[sample-db](https://github.com/temp-go-dev/sample-db)で作成したものを使っている。
 
-
 ## Kick API
 
 CURLで打ち込んでみる。
