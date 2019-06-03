@@ -2,6 +2,7 @@ package main
 
 import (
 <<<<<<< HEAD
+<<<<<<< HEAD
 	"fmt"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -12,11 +13,19 @@ import (
 	"github.com/temp-go-dev/sample-api-gin/db"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+=======
+	"github.com/temp-go-dev/sample-api-gin/db"
+
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+>>>>>>> 764f8fdd6712f7adcd839c8c1242bc08efb49b5e
 
 	user "github.com/temp-go-dev/sample-api-gin/controller"
 
 	"github.com/gin-gonic/gin"
+<<<<<<< HEAD
 >>>>>>> mod
+=======
+>>>>>>> 764f8fdd6712f7adcd839c8c1242bc08efb49b5e
 )
 
 // Init aa
