@@ -6,6 +6,7 @@ env:
 go:
   - "1.12.x"
 # install: true
+go_import_path: github.com/temp-go-dev/sample-api-gin
 script:
   - pwd
   - go env
