@@ -5,9 +5,9 @@ env:
   - GO111MODULE=on
 go:
   - "1.12.x"
-install: true
+# install: true
 script:
   - pwd
   - go env
-  - go install
+  - go install -i
   - go build -a -v -installsuffix cgo -o sample-api-gin .
