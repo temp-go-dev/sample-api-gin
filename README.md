@@ -1,12 +1,17 @@
 # sample-api-gin
 
+[![Build Status](https://travis-ci.org/temp-go-dev/sample-api-gin.svg?branch=master)](https://travis-ci.org/temp-go-dev/sample-api-gin)
+
+[![codebeat badge](https://codebeat.co/badges/42b2d504-40ed-48ba-bb81-6316072bf29c)](https://codebeat.co/projects/github-com-temp-go-dev-sample-api-gin-master)
+
+[![CodeFactor](https://www.codefactor.io/repository/github/temp-go-dev/sample-api-gin/badge)](https://www.codefactor.io/repository/github/temp-go-dev/sample-api-gin)
 
 ## Build
 
 __Build Package__
 
-```
-go build -a 
+```bash
+go build -a -installsuffix cgo -o sample-api-gin .
 ```
 
 __Docker Build__
@@ -22,21 +27,20 @@ sample-api-gin                       0.0.1               402c4f49de4d        16 
 
 __Docker Container Run__
 
-```
-docker run -d -e MYSQL_ROOT_PASSWORD=password --name mysql -p 3306:3306 sample-db_mysql
-docker run -d --link mysql -name sample-api-gin -p 8080:8080 sample-api-gin:0.0.1
+```bash
+docker run --rm -d -e MYSQL_ROOT_PASSWORD=password --name mysql -p 3306:3306 sample-db_mysql
+docker run --rm -d --link mysql -name sample-api-gin -p 8080:8080 sample-api-gin:0.0.1
 ```
 
 MySQLをあらかじめ起動およびマイグレーションしておく必要がある。  
 なお、MySQLは[sample-db](https://github.com/temp-go-dev/sample-db)で作成したものを使っている。
 
-
 ## Kick API
 
-CURLで打ち込んでみる
-データを登録してないから404になっている
+CURLで打ち込んでみる。
+あらかじめデータを登録しておかなければ404になる。
 
-```
+```bash
 $ curl -v localhost:8080/users
 * Expire in 0 ms for 6 (transfer 0xf030b0)
 * Expire in 1 ms for 1 (transfer 0xf030b0)
