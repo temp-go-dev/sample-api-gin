@@ -1,6 +1,9 @@
-laungage: go
-sudo: required
+sudo: false
+language: go
 go:
-  - 1.12
+  - "1.12.x"
+  - "master"
+env:
+  - GO111MODULE=on
 script:
-  - go build -a -installsuffix cgo -o sample-api-gin .
+  - go build -a -v -installsuffix cgo -o sample-api-gin .
