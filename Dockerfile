@@ -9,5 +9,5 @@ RUN ls -la /build/sample-api-gin
 
 FROM scratch AS runtime
 COPY --from=build /build/sample-api-gin ./
-EXPOSE 8080/tcp
+EXPOSE 8080
 ENTRYPOINT ["./sample-api-gin"]
