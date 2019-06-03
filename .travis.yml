@@ -1,7 +1,7 @@
 sudo: false
 language: go
 go:
-  - "1.12.X"
+  - "1.12.x"
   - "master"
 env:
   - GO111MODULE=on
