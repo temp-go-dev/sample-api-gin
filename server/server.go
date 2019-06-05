@@ -31,7 +31,8 @@ func router() *gin.Engine {
 		todoCtrl := controller.TodoController{}
 		todos.GET("/:id", sampleMiddleware("start: todo get", "end  : todo get"), todoCtrl.GetAllTodo)
 		// 	users.GET("/:id", todoCtrl.show)
-		todos.POST("", sampleMiddleware("start: todo get", "end  : todo get"), todoCtrl.Create1)
+		todos.POST("", sampleMiddleware("start: todo POST", "end  : todo POST"), todoCtrl.Create)
+		todos.POST("/error", sampleMiddleware("start: todo POST", "end  : todo POST"), todoCtrl.Create1)
 		// 	// users.PUT("/:id", ctrl.Update)
 		// 	// users.DELETE("/:id", ctrl.Delete)
 	}

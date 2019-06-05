@@ -1,6 +1,9 @@
 package db
 
 import (
+	"time"
+
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/temp-go-dev/sample-api-gin/config"
 )
@@ -15,7 +18,7 @@ func Init() {
 	prop := config.GetProperties()
 
 	// parseTime=trueを指定しないとdatetime→time.Timeへの変更でエラーが発生する。
-	CONNECT := prop.User + ":" + prop.Pass + "@" + prop.Protocol + "/" + prop.Dbname + "?parseTime=true"
+	CONNECT := prop.User + ":" + prop.Pass + "@" + prop.Protocol + "/" + prop.Dbname + "?parseTime=true" + "&readTimeout=10s"
 	db, err = gorm.Open(prop.Dbms, CONNECT)
 
 	if err != nil {
@@ -24,6 +27,13 @@ func Init() {
 	}
 	// DBデバッグログの出力設定
 	db.LogMode(true)
+	// SetMaxIdleConnsはアイドル状態のコネクションプール内の最大数を設定
+	db.DB().SetMaxIdleConns(10)
+	// SetMaxOpenConnsは接続済みのデータベースコネクションの最大数を設定
+	db.DB().SetMaxOpenConns(100)
+	// SetConnMaxLifetimeは再利用され得る最長時間を設定
+	db.DB().SetConnMaxLifetime(time.Hour)
+
 }
 
 // GetDB is called in models

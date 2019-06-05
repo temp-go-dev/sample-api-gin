@@ -50,13 +50,20 @@ func (pc TodoController) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
 		return
 	}
+
+	if len := len(todos.Todo); len == 0 {
+		// 0件の場合エラー
+		c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+		return
+	}
+
 	var s service.TodoService
-	p, err := s.CreateTodos(todos)
+	p, err := s.CreateTodosTran(todos)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": "Internal Server Error", "errMessage": err})
 		fmt.Println(err)
 	} else {
-		c.JSON(http.StatusOK, p)
+		c.JSON(http.StatusOK, gin.H{"createdTodoId": p})
 	}
 }
 
@@ -69,18 +76,19 @@ func (pc TodoController) Create1(c *gin.Context) {
 		return
 	}
 
-	for i, todo := range todos.Todo {
-		fmt.Println("ループインデックス:", i)
-		fmt.Println(todo)
+	if len := len(todos.Todo); len == 0 {
+		// 0件の場合エラー
+		c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+		return
 	}
 
 	var s service.TodoService
-	p, err := s.CreateTodosTran(todos)
+	p, err := s.CreateTodosTranNest(todos)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"status": "Internal Server Error", "errMessage": err})
 		fmt.Println(err)
 	} else {
-		c.JSON(http.StatusOK, p)
+		c.JSON(http.StatusOK, gin.H{"createdTodoId": p})
 	}
 }
 
