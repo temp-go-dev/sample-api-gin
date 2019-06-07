@@ -1,6 +1,8 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 // User ユーザTBLの構造体
 type User struct {
@@ -22,14 +24,14 @@ type Todos struct {
 
 // Todo TodoTBLの構造体
 type Todo struct {
-	ID          string    `json:"id" gorm:"column:id"`
-	UserID      string    `json:"owner" gorm:"column:user_id"`
-	Title       string    `json:"title" gorm:"column:title"`
-	Contents    string    `json:"contents" gorm:"column:contents"`
-	Start       time.Time `json:"start" gorm:"column:start"`
-	Due         time.Time `json:"due" gorm:"column:due"`
-	ActualStart time.Time `json:"actualStart" gorm:"column:actualStart"`
-	ActualEnd   time.Time `json:"actualEnd" gorm:"column:actualEnd"`
-	Status      int       `json:"status" gorm:"column:status"`
-	Version     int       `json:"version" gorm:"column:version"`
+	ID          string     `json:"id" gorm:"column:id"`
+	UserID      string     `json:"owner" gorm:"column:user_id"`
+	Title       string     `json:"title" gorm:"column:title"`
+	Contents    string     `json:"contents" gorm:"column:contents"`
+	Start       *time.Time `json:"start" gorm:"column:start"`
+	Due         *time.Time `json:"due" gorm:"column:due"`
+	ActualStart *time.Time `json:"actualStart" gorm:"column:actualStart"`
+	ActualEnd   *time.Time `json:"actualEnd" gorm:"column:actualEnd"`
+	Status      *int        `json:"status" gorm:"column:status"`
+	Version     int        `json:"version" gorm:"column:version"`
 }

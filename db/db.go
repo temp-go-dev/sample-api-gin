@@ -3,7 +3,6 @@ package db
 import (
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/temp-go-dev/sample-api-gin/config"
 )
@@ -27,13 +26,14 @@ func Init() {
 	}
 	// DBデバッグログの出力設定
 	db.LogMode(true)
+	// db.SetLogger(config.GetLogger())
+
 	// SetMaxIdleConnsはアイドル状態のコネクションプール内の最大数を設定
 	db.DB().SetMaxIdleConns(10)
 	// SetMaxOpenConnsは接続済みのデータベースコネクションの最大数を設定
 	db.DB().SetMaxOpenConns(100)
 	// SetConnMaxLifetimeは再利用され得る最長時間を設定
 	db.DB().SetConnMaxLifetime(time.Hour)
-
 }
 
 // GetDB is called in models

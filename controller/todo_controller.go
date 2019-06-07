@@ -5,8 +5,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/temp-go-dev/sample-api-gin/config"
 	"github.com/temp-go-dev/sample-api-gin/model"
 	"github.com/temp-go-dev/sample-api-gin/service"
+	"go.uber.org/zap"
 )
 
 // TodoController is todo controller
@@ -69,6 +71,8 @@ func (pc TodoController) Create(c *gin.Context) {
 
 // Create1 action: Create /todos
 func (pc TodoController) Create1(c *gin.Context) {
+	logger := config.GetLogger()
+
 	todos := model.Todos{}
 	if err := c.BindJSON(&todos); err != nil {
 		fmt.Println(err)
@@ -83,8 +87,13 @@ func (pc TodoController) Create1(c *gin.Context) {
 	}
 
 	var s service.TodoService
+	logger.Info("todo作成を実行")
+
 	p, err := s.CreateTodosTranNest(todos)
 	if err != nil {
+		logger.Error("CreateTodosTranNestでエラーが発生", zap.Error(err))
+		logger.Named("aaaa")
+		logger.Error("errors", zap.String("key", "value"), zap.Error(err))
 		c.JSON(http.StatusInternalServerError, gin.H{"status": "Internal Server Error", "errMessage": err})
 		fmt.Println(err)
 	} else {

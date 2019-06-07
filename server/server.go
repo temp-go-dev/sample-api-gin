@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 
+	// ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"github.com/temp-go-dev/sample-api-gin/controller"
 )
@@ -36,6 +37,10 @@ func router() *gin.Engine {
 		// 	// users.PUT("/:id", ctrl.Update)
 		// 	// users.DELETE("/:id", ctrl.Delete)
 	}
+	// ginのログをzapのログに出す　うまくいってない
+	// logger := config.GetLogger()
+	// r.Use(ginzap.Ginzap(logger, time.RFC3339, true))
+	// r.Use(ginzap.RecoveryWithZap(logger, true))
 
 	return r
 }

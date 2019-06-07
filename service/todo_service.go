@@ -1,8 +1,6 @@
 package service
 
 import (
-	"fmt"
-
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
 	"github.com/temp-go-dev/sample-api-gin/db"
@@ -79,7 +77,6 @@ func (s TodoService) CreateTodos(todos model.Todos) (string, error) {
 	for _, todo := range todos.Todo {
 		err := tx.Table("todo").Create(&todo).Error
 		if err != nil {
-			fmt.Println("DB error")
 			// ロールバックして終了
 			tx.Rollback()
 			return "", err
@@ -144,7 +141,6 @@ func insert001(db *gorm.DB, todos model.Todos) ([]string, error) {
 
 // CreateTodosTranNest TransactNestを使用した実装
 func (s TodoService) CreateTodosTranNest(todos model.Todos) ([]string, error) {
-	fmt.Println("CreateTodosTranNest")
 	db := db.GetDB().Begin()
 	todoID := []string{}
 
@@ -154,14 +150,12 @@ func (s TodoService) CreateTodosTranNest(todos model.Todos) ([]string, error) {
 
 		// insert001 ネストしたトランザクション処理 Begin済みのDBを渡す
 		todoID, _ = insert001(tx, todos)
-		for i, todo := range todos.Todo {
-			fmt.Println(i)
-			if i > 0 {
-				// 強制的にerrorにする
-				panic("panic!!")
-			}
-			uuid := uuid.New()
-			uuidStr := uuid.String()
+
+		// 一意制約でエラーにする
+		uuid := uuid.New()
+		uuidStr := uuid.String()
+
+		for _, todo := range todos.Todo {
 			todo.ID = uuidStr
 			errEvent := CreateTodo(tx, todo)
 			todoID = append(todoID, uuidStr)
@@ -183,7 +177,6 @@ func CreateTodo(db *gorm.DB, todo model.Todo) error {
 	err := db.Exec("INSERT INTO sampledb.todo VALUES (?,?,?,?,?,?,?,?,?,?);", todo.ID, todo.UserID, todo.Title, todo.Contents, todo.Start, todo.Due, todo.ActualStart, todo.ActualEnd, todo.Status, todo.Version).Error
 	// err := db.Table("todo").Create(&todo).Error
 	if err != nil {
-		fmt.Println("DB error")
 		return err
 	}
 	return nil
@@ -217,17 +210,13 @@ func TransactNest(tx *gorm.DB, commit bool, txFunc func(*gorm.DB) (interface{}, 
 	}
 	defer func() {
 		if p := recover(); p != nil {
-			fmt.Println("Rollback recover")
 			tx.Rollback()
 			panic(p)
 		} else if err != nil {
-			fmt.Println("Rollback err")
 			tx.Rollback()
 		} else if commit == true {
-			fmt.Println("commit")
 			err = tx.Commit().Error
 		}
-		fmt.Println("commitしない")
 	}()
 	// 無名関数にBeginしたDBを渡して実行する
 	data, err = txFunc(tx)
