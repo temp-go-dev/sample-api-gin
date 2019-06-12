@@ -10,6 +10,7 @@ import (
 	"github.com/temp-go-dev/sample-api-gin/model"
 	"github.com/temp-go-dev/sample-api-gin/service"
 	"go.uber.org/zap"
+	"gopkg.in/go-playground/validator.v8"
 )
 
 // TodoController is todo controller
@@ -33,8 +34,17 @@ func (pc TodoController) GetAllTodo(c *gin.Context) {
 func (pc TodoController) Create(c *gin.Context) {
 	todos := model.Todos{}
 	if err := c.BindJSON(&todos); err != nil {
-		fmt.Println(err)
 		c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+		return
+	}
+
+	// ここで タグ v-post にもとづき validation
+	config := &validator.Config{TagName: "v-post"}
+	validate := validator.New(config)
+
+	if err := validate.Struct(&todos); err != nil {
+		fmt.Println("vali Error")
+		c.AbortWithStatus(http.StatusBadRequest)
 		return
 	}
 
