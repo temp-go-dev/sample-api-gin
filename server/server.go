@@ -34,6 +34,8 @@ func router() *gin.Engine {
 		// 	users.GET("/:id", todoCtrl.show)
 		todos.POST("", sampleMiddleware("start: todo POST", "end  : todo POST"), todoCtrl.Create)
 		todos.POST("/error", sampleMiddleware("start: todo POST", "end  : todo POST"), todoCtrl.Create1)
+		todos.POST("/handling", todoCtrl.CreateErrorHandling)
+
 		// 	// users.PUT("/:id", ctrl.Update)
 		// 	// users.DELETE("/:id", ctrl.Delete)
 	}

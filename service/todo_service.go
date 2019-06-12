@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 	"github.com/temp-go-dev/sample-api-gin/db"
 	"github.com/temp-go-dev/sample-api-gin/model"
 )
@@ -49,19 +50,6 @@ func (s TodoService) GetAllTodoTran(uid string) ([]model.Todo, error) {
 	}
 	return todos, nil
 }
-
-// // GetUser is get all User
-// func (s Service) GetUser(id string) ([]model.User, error) {
-// 	db := db.GetDB()
-// 	users := []model.User{}
-
-// 	// SELECT実行
-// 	err := db.Raw("SELECT * FROM user where id = ?", id).Scan(&users).Error
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	return users, nil
-// }
 
 // CreateTodos Todoの作成
 func (s TodoService) CreateTodos(todos model.Todos) (string, error) {
@@ -158,16 +146,73 @@ func (s TodoService) CreateTodosTranNest(todos model.Todos) ([]string, error) {
 		for _, todo := range todos.Todo {
 			todo.ID = uuidStr
 			errEvent := CreateTodo(tx, todo)
-			todoID = append(todoID, uuidStr)
 			if errEvent != nil {
-				return nil, errEvent
+				return nil, errors.Wrap(errEvent, "DBアクセス処理でエラー")
 			}
+			todoID = append(todoID, uuidStr)
 		}
 		return todoID, nil
 		//↑↑↑ トランザクション対象の処理を記載 ↑↑↑
 	})
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "トランザクション処理でエラー")
+	}
+	return todoID, nil
+}
+
+// // CheckError aaa
+// type CheckError struct {
+//     s string
+// }
+
+// func (e *CheckError) Error() string {
+//     return "checkErrorです。"
+// }
+
+// // DbError aaa
+// type DbError struct {
+//     s string
+// }
+
+// func (e *DbError) Error() string {
+//     return "dbErrorです。"
+// }
+
+// CreateTodosErrorHandling エラーハンドリングのサンプル
+func (s TodoService) CreateTodosErrorHandling(todos model.Todos) ([]string, error) {
+	db := db.GetDB().Begin()
+	todoID := []string{}
+
+	if len := len(todos.Todo); len == 0 {
+		// 0件の場合エラー
+		return nil, &CheckError{"error 登録対象がありません。", "E1001"}
+	}
+
+	// Transactにトランザクションを行いたい処理を実装した無名関数を渡す
+	_, err := TransactNest(db, true, func(tx *gorm.DB) (interface{}, error) {
+		// ↓↓↓ トランザクション対象の処理を記載 ↓↓↓
+
+		// insert001 ネストしたトランザクション処理 Begin済みのDBを渡す
+		todoID, _ = insert001(tx, todos)
+
+		// 一意制約でエラーにする
+		uuid := uuid.New()
+		uuidStr := uuid.String()
+
+		for _, todo := range todos.Todo {
+			todo.ID = uuidStr
+			errEvent := CreateTodo(tx, todo)
+			if errEvent != nil {
+				return nil, errors.Wrap(errEvent, "dbError")
+				// return nil, errors.Wrap(errEvent, &DbError{"Dberror"})
+			}
+			todoID = append(todoID, uuidStr)
+		}
+		return todoID, nil
+		//↑↑↑ トランザクション対象の処理を記載 ↑↑↑
+	})
+	if err != nil {
+		return nil, errors.Wrap(err, "トランザクション処理でエラー")
 	}
 	return todoID, nil
 }
