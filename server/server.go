@@ -20,6 +20,7 @@ func router() *gin.Engine {
 	users := r.Group("/users")
 	{
 		userCtrl := new(controller.UserController)
+
 		users.GET("", userCtrl.GetAllUser)
 		users.GET("/:id", userCtrl.GetUser)
 		users.POST("", userCtrl.Create)
@@ -30,6 +31,7 @@ func router() *gin.Engine {
 	todos := r.Group("/todos")
 	{
 		todoCtrl := controller.TodoController{}
+		
 		todos.GET("/:id", sampleMiddleware("start: todo get", "end  : todo get"), todoCtrl.GetAllTodo)
 		// 	users.GET("/:id", todoCtrl.show)
 		todos.POST("", sampleMiddleware("start: todo POST", "end  : todo POST"), todoCtrl.Create)

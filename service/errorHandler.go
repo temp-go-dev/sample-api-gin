@@ -12,9 +12,24 @@ func (e *CheckError) Error() string {
 
 // DbError DBエラーの場合に投げるエラー
 type DbError struct {
-	Message string
+    Message string
+    err error
 }
 
 func (e *DbError) Error() string {
+	return e.Message
+}
+
+
+// ErrorMessage DBエラーの場合に投げるエラー
+type ErrorMessage struct {
+    StatusCd int
+    Message string
+    ErrorCd string
+    Detail string
+    err error
+}
+
+func (e *ErrorMessage) Error() string {
 	return e.Message
 }

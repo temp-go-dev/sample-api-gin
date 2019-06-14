@@ -17,29 +17,54 @@ type UserController struct{}
 
 // GetAllUser action: GET /users
 func (pc UserController) GetAllUser(c *gin.Context) {
+	// serviceの呼び出し
 	var s service.UserService
 	p, err := s.GetAllUser()
-
-	if err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
+	if err != nil { // エラーが設定されている場合
+		logger := config.GetLogger()
+		switch e := err.(type) {
+		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
+			// ログ出力
+			logger.Error("error", zap.Error(e))
+			// レスポンスボディを生成して終了
+			c.JSON(e.StatusCd, e)
+			return
+		default: // されていない場合サーバエラーを返却
+			logger.Error("error", zap.Error(e))
+			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+			return
+		}
 	} else {
-		c.JSON(200, p)
+		c.JSON(http.StatusOK, p)
+		return
 	}
 }
 
 // GetUser action: GET /users/id
 func (pc UserController) GetUser(c *gin.Context) {
+	// パラメータ取得
 	id := c.Param("id")
 
+	// serviceの呼び出し
 	var s service.UserService
 	p, err := s.GetUser(id)
-
-	if err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
+	if err != nil { // エラーが設定されている場合
+		logger := config.GetLogger()
+		switch e := err.(type) {
+		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
+			// ログ出力
+			logger.Error("error", zap.Error(e))
+			// レスポンスボディを生成して終了
+			c.JSON(e.StatusCd, e)
+			return
+		default: // されていない場合サーバエラーを返却
+			logger.Error("error", zap.Error(e))
+			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+			return
+		}
 	} else {
-		c.JSON(200, p)
+		c.JSON(http.StatusOK, p)
+		return
 	}
 }
 
@@ -48,10 +73,9 @@ func (pc UserController) Create(c *gin.Context) {
 	logger := config.GetLogger()
 	u := model.User{}
 
-	fmt.Println("create")
 	if err := c.BindJSON(&u); err != nil {
-		fmt.Println("vali Error")
-		c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+		// バインドエラーの場合、400で終了
+		c.JSON(http.StatusBadRequest, err)
 		return
 	}
 
@@ -59,40 +83,70 @@ func (pc UserController) Create(c *gin.Context) {
 	config := &validator.Config{TagName: "v-post"}
 	validate := validator.New(config)
 	if err := validate.Struct(u); err != nil {
-		fmt.Println("v-post vali Error")
-
+		// validationエラーの場合
 		for _, err := range err.(validator.ValidationErrors) {
 			fmt.Printf("errField:%s ", err.Field)
 			fmt.Printf("errType:%s\n", err.Tag)
 		}
-
+		// ログ出力
 		logger.Error("error", zap.Error(err))
+		// レスポンス生成して終了
 		c.JSON(http.StatusBadRequest, err)
 		return
 	}
 
+	// serviceの呼び出し
 	var s service.UserService
 	p, err := s.CreateUser(u)
-	if err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
+	if err != nil { // エラーが設定されている場合
+		switch e := err.(type) {
+		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
+			// ログ出力
+			logger.Error("error", zap.Error(e))
+			// レスポンスボディを生成して終了
+			c.JSON(e.StatusCd, e)
+			return
+		default: // されていない場合サーバエラーを返却
+			logger.Error("error", zap.Error(e))
+			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+			return
+		}
 	} else {
-		c.JSON(200, p)
+		c.JSON(http.StatusOK, p)
+		return
 	}
 }
 
 // Update action: UPDATE /users/id
 func (pc UserController) Update(c *gin.Context) {
 	u := model.User{}
-	c.BindJSON(&u)
 
+	// リクエストボディのバインド処理
+	if err := c.BindJSON(&u); err != nil {
+		// バインドエラーの場合、400で終了
+		c.JSON(http.StatusBadRequest, err)
+		return
+	}
+
+	// serviceの呼び出し
 	var s service.UserService
 	p, err := s.UpdateUser(u)
-	if err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
+	if err != nil { // エラーが設定されている場合
+		logger := config.GetLogger()
+		switch e := err.(type) {
+		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
+			// ログ出力
+			logger.Error("error", zap.Error(e))
+			// レスポンスボディを生成して終了
+			c.JSON(e.StatusCd, e)
+			return
+		default: // されていない場合サーバエラーを返却
+			logger.Error("error", zap.Error(e))
+			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+			return
+		}
 	} else {
-		c.JSON(200, p)
+		c.JSON(http.StatusOK, p)
 	}
 }
 
@@ -100,12 +154,24 @@ func (pc UserController) Update(c *gin.Context) {
 func (pc UserController) Delete(c *gin.Context) {
 	id := c.Param("id")
 
+	// serviceの呼び出し
 	var s service.UserService
 	p, err := s.DeleteUser(id)
-	if err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
+	if err != nil { // エラーが設定されている場合
+		logger := config.GetLogger()
+		switch e := err.(type) {
+		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
+			// ログ出力
+			logger.Error("error", zap.Error(e))
+			// レスポンスボディを生成して終了
+			c.JSON(e.StatusCd, e)
+			return
+		default: // されていない場合サーバエラーを返却
+			logger.Error("error", zap.Error(e))
+			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+			return
+		}
 	} else {
-		c.JSON(200, p)
+		c.JSON(http.StatusOK, p)
 	}
 }

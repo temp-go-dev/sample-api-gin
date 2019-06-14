@@ -18,13 +18,15 @@ type TodoController struct{}
 
 // GetAllTodo action: GET /todos/id
 func (pc TodoController) GetAllTodo(c *gin.Context) {
+
+	// TODO チェック処理
 	id := c.Param("id")
 
+	// serviceの呼び出し
 	var s service.TodoService
 	p, err := s.GetAllTodoTran(id)
 	if err != nil {
-		c.AbortWithStatus(404)
-		fmt.Println(err)
+		c.AbortWithStatus(http.StatusNotFound)
 	} else {
 		c.JSON(http.StatusOK, p)
 	}
@@ -33,18 +35,21 @@ func (pc TodoController) GetAllTodo(c *gin.Context) {
 // Create action: Create /todos
 func (pc TodoController) Create(c *gin.Context) {
 	todos := model.Todos{}
+	
 	if err := c.BindJSON(&todos); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
 		return
 	}
 
-	// ここで タグ v-post にもとづき validation
+	// validation : v-post
 	config := &validator.Config{TagName: "v-post"}
 	validate := validator.New(config)
 
 	if err := validate.Struct(&todos); err != nil {
 		fmt.Println("vali Error")
-		c.AbortWithStatus(http.StatusBadRequest)
+		// c.AbortWithStatus(http.StatusBadRequest)
+		c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
+
 		return
 	}
 
