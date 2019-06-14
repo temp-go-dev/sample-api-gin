@@ -18,8 +18,6 @@ type TodoController struct{}
 
 // GetAllTodo action: GET /todos/id
 func (pc TodoController) GetAllTodo(c *gin.Context) {
-
-	// TODO チェック処理
 	id := c.Param("id")
 
 	// serviceの呼び出し
@@ -35,7 +33,7 @@ func (pc TodoController) GetAllTodo(c *gin.Context) {
 // Create action: Create /todos
 func (pc TodoController) Create(c *gin.Context) {
 	todos := model.Todos{}
-	
+
 	if err := c.BindJSON(&todos); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
 		return

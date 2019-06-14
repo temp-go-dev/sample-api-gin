@@ -24,8 +24,7 @@ func (s UserService) GetAllUser() ([]model.User, error) {
 			StatusCd: http.StatusInternalServerError,
 			Message:  "",
 			ErrorCd:  "1005",
-			Detail:   "DBerror",
-			err:      err,
+			Detail:   err,
 		}
 	}
 	return users, nil
@@ -43,8 +42,7 @@ func (s UserService) GetUser(id string) ([]model.User, error) {
 			StatusCd: http.StatusInternalServerError,
 			Message:  "",
 			ErrorCd:  "1005",
-			Detail:   "DBerror",
-			err:      err,
+			Detail:   err,
 		}
 	}
 	return users, nil
@@ -57,13 +55,7 @@ func (s UserService) CreateUser(user model.User) (string, error) {
 	_, err := Transact(db, func(tx *gorm.DB) (interface{}, error) {
 		err := db.Table("user").Create(&user).Error
 		if err != nil {
-			return "", &ErrorMessage{
-				StatusCd: http.StatusInternalServerError,
-				Message:  "",
-				ErrorCd:  "1005",
-				Detail:   "DBerror",
-				err:      err,
-			}
+			return nil, err
 		}
 		return user.ID, nil
 	})
@@ -72,40 +64,38 @@ func (s UserService) CreateUser(user model.User) (string, error) {
 			StatusCd: http.StatusInternalServerError,
 			Message:  "",
 			ErrorCd:  "1005",
-			Detail:   "DBerror",
-			err:      err,
+			Detail:   err,
 		}
 	}
 	return user.ID, nil
 }
 
 // UpdateUser ユーザを更新
-func (s UserService) UpdateUser(user model.User) (string, error) {
+func (s UserService) UpdateUser(userinfo model.User) ([]model.User, error) {
 	db := db.GetDB()
+	users := []model.User{}
 
 	_, err := Transact(db, func(tx *gorm.DB) (interface{}, error) {
-		err := db.Table("user").Save(&user).Error
+		err := db.Table("user").Save(&userinfo).Error
 		if err != nil {
-			return "", &ErrorMessage{
-				StatusCd: http.StatusInternalServerError,
-				Message:  "",
-				ErrorCd:  "1005",
-				Detail:   "DBerror",
-				err:      err,
-			}
+			return nil, err
 		}
-		return user.ID, nil
+		err = db.Raw("SELECT * FROM user where id = ?", userinfo.ID).Scan(&users).Error
+		// err = db.Raw("S * FROM user where id = ?", userinfo.ID).Scan(&users).Error
+		if err != nil {
+			return nil, err
+		}
+		return users, nil
 	})
 	if err != nil {
-		return "", &ErrorMessage{
+		return nil, &ErrorMessage{
 			StatusCd: http.StatusInternalServerError,
 			Message:  "",
 			ErrorCd:  "1005",
-			Detail:   "DBerror",
-			err:      err,
+			Detail:   err,
 		}
 	}
-	return user.ID, nil
+	return users, nil
 }
 
 // DeleteUser ユーザを削除
@@ -115,13 +105,7 @@ func (s UserService) DeleteUser(id string) (string, error) {
 	_, err := Transact(db, func(tx *gorm.DB) (interface{}, error) {
 		err := db.Raw("DELETE FROM user WHERE id = ?", id).Error
 		if err != nil {
-			return "", &ErrorMessage{
-				StatusCd: http.StatusInternalServerError,
-				Message:  "",
-				ErrorCd:  "1005",
-				Detail:   "DBerror",
-				err:      err,
-			}
+			return "", err
 		}
 		return id, nil
 	})
@@ -130,8 +114,7 @@ func (s UserService) DeleteUser(id string) (string, error) {
 			StatusCd: http.StatusInternalServerError,
 			Message:  "",
 			ErrorCd:  "1005",
-			Detail:   "DBerror",
-			err:      err,
+			Detail:   err,
 		}
 	}
 	return id, nil

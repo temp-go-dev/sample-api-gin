@@ -25,12 +25,12 @@ func (pc UserController) GetAllUser(c *gin.Context) {
 		switch e := err.(type) {
 		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
 			// ログ出力
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(e.Detail))
 			// レスポンスボディを生成して終了
 			c.JSON(e.StatusCd, e)
 			return
 		default: // されていない場合サーバエラーを返却
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(err))
 			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
 			return
 		}
@@ -53,12 +53,12 @@ func (pc UserController) GetUser(c *gin.Context) {
 		switch e := err.(type) {
 		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
 			// ログ出力
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(e.Detail))
 			// レスポンスボディを生成して終了
 			c.JSON(e.StatusCd, e)
 			return
 		default: // されていない場合サーバエラーを返却
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(err))
 			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
 			return
 		}
@@ -102,12 +102,12 @@ func (pc UserController) Create(c *gin.Context) {
 		switch e := err.(type) {
 		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
 			// ログ出力
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(e.Detail))
 			// レスポンスボディを生成して終了
 			c.JSON(e.StatusCd, e)
 			return
 		default: // されていない場合サーバエラーを返却
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(err))
 			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
 			return
 		}
@@ -136,12 +136,12 @@ func (pc UserController) Update(c *gin.Context) {
 		switch e := err.(type) {
 		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
 			// ログ出力
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(e.Detail))
 			// レスポンスボディを生成して終了
 			c.JSON(e.StatusCd, e)
 			return
 		default: // されていない場合サーバエラーを返却
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(err))
 			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
 			return
 		}
@@ -162,12 +162,12 @@ func (pc UserController) Delete(c *gin.Context) {
 		switch e := err.(type) {
 		case *service.ErrorMessage: // ErrorMessageが設定されている場合、
 			// ログ出力
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(e.Detail))
 			// レスポンスボディを生成して終了
 			c.JSON(e.StatusCd, e)
 			return
 		default: // されていない場合サーバエラーを返却
-			logger.Error("error", zap.Error(e))
+			logger.Error("error", zap.Error(err))
 			c.JSON(http.StatusBadRequest, gin.H{"status": "BadRequest"})
 			return
 		}
