@@ -17,7 +17,7 @@ func Init() {
 	prop := config.GetProperties()
 
 	// parseTime=trueを指定しないとdatetime→time.Timeへの変更でエラーが発生する。
-	CONNECT := prop.User + ":" + prop.Pass + "@" + prop.Protocol + "/" + prop.Dbname + "?parseTime=true" + "&readTimeout=10s"
+	CONNECT := prop.User + ":" + prop.Pass + "@" + prop.Protocol + "/" + prop.Dbname + "?parseTime=true" + "&readTimeout=10s&timeout=30s"
 	db, err = gorm.Open(prop.Dbms, CONNECT)
 
 	if err != nil {

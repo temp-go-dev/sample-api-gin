@@ -1,0 +1,22 @@
+version: "3"
+services:
+  mysql:
+    build: sample-db/localhost/mysql
+    ports:
+      - "3306:3306"
+    environment:
+        MYSQL_ROOT_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on: 
+      - mysql
+    links:
+      - mysql
+    env_file: 
+      - sample-api-environment/environment.env

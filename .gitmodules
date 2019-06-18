@@ -2,3 +2,6 @@
 	path = sample-api-environment
 	url = https://github.com/temp-go-dev/sample-api-environment.git
 	branch = master
+[submodule "sample-db"]
+	path = sample-db
+	url = https://github.com/temp-go-dev/sample-db.git
